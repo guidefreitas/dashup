@@ -8,3 +8,7 @@ body {
 .sebm-google-map-container {
 	height: 300px;
 }
+
+.ui.inverted.menu .teal.active.item, .ui.inverted.teal.menu{
+	    background-color: #0083b5;
+}

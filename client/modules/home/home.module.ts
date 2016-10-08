@@ -2,11 +2,11 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { HttpModule } from "@angular/http";
 import { NgSemanticModule } from "ng-semantic";
 import { CommonModule } from "@angular/common";
-
 import { HomeComponent } from "./home.component";
 import { routing } from "./home.routing";
 import { SharedModule } from "../shared/shared.module";
-import { ContactModule } from "../contact/contact.module";
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule }   from '@angular/forms';
 
 @NgModule({
     imports: [
@@ -14,8 +14,9 @@ import { ContactModule } from "../contact/contact.module";
         HttpModule,
         routing,
         SharedModule.forRoot(),
-        NgSemanticModule,
-        ContactModule
+        BrowserModule,
+        FormsModule,
+        NgSemanticModule
     ],
     declarations: [
         HomeComponent

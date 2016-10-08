@@ -1,0 +1,60 @@
+<div class="ui container">
+    <nav class="ui menu inverted teal huge">
+        <a routerLink="home" class="item">Home</a>
+        <a routerLink="signup" *ngIf="!isLogged" class="item">Signup</a>
+
+        <nav class="menu right">
+            <a (click)="myPopup.show($event, {position: 'right center'})" *ngIf="!isLogged" class="item">Login</a>
+            <a (click)="logout()" *ngIf="isLogged" class="item inverted red">Logout</a>
+        </nav>
+    </nav>
+    
+    <sm-popup class="huge" #myPopup>
+        <sm-card class="card basic">
+            <card-title> Simple login </card-title>
+            <card-subtitle>  </card-subtitle>
+            <card-content>
+                <form class="ui form" (submit)="login($event)">
+                    <div class="field">
+                        <label>Email</label>
+                        <input [(ngModel)]="user.email" 
+                                name="email"
+                                required
+                                #name="ngModel" 
+                                type="email" 
+                                placeholder="Your email">
+                    </div>
+                    <div class="field">
+                        <label>Password</label>
+                        <input [(ngModel)]="user.password" 
+                                name="password"
+                                required
+                                #name="ngModel" 
+                                type="password" 
+                                placeholder="Your password">
+                    </div>
+                </form>
+            </card-content>
+            
+            <sm-button class="bottom attached fluid primary" *ngIf="!isLogged" (click)="login()">Login</sm-button>
+            <sm-button class="bottom attached fluid red" *ngIf="isLogged" (click)="logout()">Logout</sm-button>
+        </sm-card>
+    </sm-popup>
+        
+    <hello [name]="appName"></hello>
+    
+    <div class="ui divider"></div>
+    
+    <router-outlet></router-outlet>
+    
+    <sm-segment *ngIf="response">
+        <div style="word-break: break-all"><b>Hashed:</b> {{response?.hashed}}</div>
+        <div class="ui divider"></div>
+        <div style="word-break: break-all"><b>Salt:</b> {{response?.salt}}</div>
+    </sm-segment>
+    
+    <div class="center">
+        
+    </div>
+    
+</div>

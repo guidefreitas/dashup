@@ -24,9 +24,9 @@ app.use(urlencoded({ extended: true }));
 // api routes
 app.use("/protected", apiRouter);
 app.use("/login", loginRouter);
-app.use("/api/user", apiUserRouter);
-app.use("/api/feed", apiFeedRouter);
-app.use("/api/dashboard", apiDashboardRouter);
+app.use("/api/users", apiUserRouter);
+app.use("/api/feeds", apiFeedRouter);
+app.use("/api/dashboards", apiDashboardRouter);
 app.use('/client', express.static(join(__dirname, '../client')));
 
 // error handlers
