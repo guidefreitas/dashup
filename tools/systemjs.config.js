@@ -23,11 +23,10 @@ var isPublic = typeof window != "undefined";
             '@angular/http': 'npm:@angular/http/bundles/http.umd.js',
             '@angular/router': 'npm:@angular/router/bundles/router.umd.js',
             '@angular/forms': 'npm:@angular/forms/bundles/forms.umd.js',
-            // other libraries
-            'rxjs':                       'npm:rxjs',
-            'angular2-in-memory-web-api': 'npm:angular2-in-memory-web-api',
             'angular2-jwt':               'npm:angular2-jwt/angular2-jwt.js',
-            'ng-semantic':                'npm:ng-semantic'
+            'js-base64':                  'npm:js-base64/base64.js',
+            'ng-semantic':                'npm:ng-semantic',
+            'chartjs': 'node_modules/chart.js/Chart.min.js'
         },
         // packages tells the System loader how to load when no filename and/or no extension
         packages: {

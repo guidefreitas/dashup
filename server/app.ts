@@ -8,6 +8,10 @@ import { apiFeedRouter } from "./routes/apiFeedRouter";
 import { apiUserRouter } from "./routes/apiUserRouter";
 import { apiDashboardRouter } from "./routes/apiDashboardRouter";
 import { DbConnection } from "./DbConnection";
+import { MqttServer } from './mqttserver';
+
+let mqttServer = new MqttServer();
+mqttServer.start();
 
 const app: express.Application = express();
 

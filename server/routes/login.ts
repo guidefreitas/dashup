@@ -63,11 +63,13 @@ loginRouter.post("/signup", function (request: Request, response: Response, next
 loginRouter.post("/", function (request: Request, response: Response, next: NextFunction) {
     if (!request.body.hasOwnProperty("email")) {
         let err = new Error("No email");
+        err.status = 401;
         return next(err);
     }
 
     if (!request.body.hasOwnProperty("password")) {
         let err = new Error("No password");
+        err.status = 401;
         return next(err);
     }
 
@@ -80,19 +82,27 @@ loginRouter.post("/", function (request: Request, response: Response, next: Next
     }).then((user) => {
         if(!user){
             let err = new Error("Invalid email");
+            err.status = 401;
             return next(err);
         }   
         
         let hash = pbkdf2Sync(request.body.password, user.salt, 10000, length, digest);
         if (hash.toString("hex") === user.hashedPassword) {
             const token = sign({"user_id":user._id, "email": user.email, permissions: []}, secret, { expiresIn: "7d" });
-            response.json({"jwt": token});
+            response.json(
+                {
+                    "jwt": token
+                });
 
         } else {
-            response.json({message: "Wrong password"});
+            let err = new Error("Wrong password");
+            err.status = 401;
+            return next(err);
         }
         
     }).catch((error) => {
+        console.log('Login error: ', error);
+        
         response.json({
             success: false,
             message: error

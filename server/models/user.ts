@@ -7,6 +7,7 @@ export var UserSchema = new mongoose.Schema({
     email: String,
     hashedPassword: String,
     salt: String,
+    apiToken: String,
     feeds: [FeedSchema],
     dashboards: [DashboardSchema]
 });
@@ -16,6 +17,7 @@ export interface IUser extends mongoose.Document {
   email: string;
   hashedPassword: string;
   salt: string;
+  apiToken: string;
   feeds: [IFeed];
   dashboards: [IDashboard]
 };

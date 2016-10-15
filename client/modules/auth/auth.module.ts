@@ -3,7 +3,7 @@ import { HttpModule } from "@angular/http";
 import { NgSemanticModule } from "ng-semantic";
 import { FormsModule } from '@angular/forms';
 import { SignupComponent } from "./signup/signup.component";
-import { routing } from "./auth.routing";
+import { authRouting } from "./auth.routing";
 import { SharedModule } from "../shared/shared.module";
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -11,7 +11,7 @@ import { BrowserModule } from '@angular/platform-browser';
     imports: [
         HttpModule,
         NgSemanticModule,
-        routing,
+        authRouting,
         FormsModule,
         BrowserModule,
         SharedModule.forRoot()

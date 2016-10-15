@@ -5,4 +5,4 @@ export const routes: Routes = [
     { path: 'signup', component: SignupComponent }
 ];
 
-export const routing = RouterModule.forChild(routes);
+export const authRouting = RouterModule.forChild(routes);

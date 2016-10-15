@@ -5,11 +5,13 @@ import { authMiddleware } from "./authMiddleware";
 
 const apiDashboardRouter: Router = Router();
 
-apiDashboardRouter.get("/", authMiddleware, (request: Request, response: Response) => {
+apiDashboardRouter.get("/", authMiddleware, (request: any, response: Response) => {
     let promise = Promise.resolve();
 
     promise.then(() => {
         return DashboardRepository.find()
+                                  .where('user')
+                                  .equals(request.user._id) 
                                   .select({_id: 1, name: 1})
                                   .exec();
     }).then((data) => {
@@ -33,8 +35,39 @@ apiDashboardRouter.get("/", authMiddleware, (request: Request, response: Respons
     });
 });
 
-apiDashboardRouter.post("/", authMiddleware, (request: Request, response: Response) => {
+apiDashboardRouter.get("/:id", authMiddleware, (request: any, response: Response) => {
+    let promise = Promise.resolve();
+
+    promise.then(() => {
+        return DashboardRepository.findById(request.params.id)
+                                  .where('user')
+                                  .equals(request.user._id) 
+                                  .select({_id: 1, name: 1, widgets: 1})
+                                  .exec();
+    }).then((data) => {
+        let dataResponse = {
+            success: true,
+            count: data.length,
+            data: data
+        }
+
+        response.json({
+            success: true,
+            count: data.length,
+            data: data
+        });
+    }).catch((error) => {
+        response.statusCode = 500;
+        response.json({
+            success: false,
+            message: error
+        });
+    });
+});
+
+apiDashboardRouter.post("/", authMiddleware, (request: any, response: Response) => {
     let dashboard = <IDashboard>{
+        user: request.user._id,
         name: request.body.name
     };
 

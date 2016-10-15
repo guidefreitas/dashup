@@ -7,10 +7,12 @@ import { authMiddleware } from "./authMiddleware";
 const apiFeedRouter: Router = Router();
 
 apiFeedRouter
-    .get("/", authMiddleware, (request: Request, response: Response) => {
+    .get("/", authMiddleware, (request: any, response: Response) => {
         let promise = Promise.resolve();
         promise.then(() => {
             return FeedRepository.find()
+                  .where('user')
+                  .equals(request.user._id)
                   .select({_id: 1, name: 1})
                   .exec();
         }).then((data) => {   
@@ -28,11 +30,13 @@ apiFeedRouter
             });
         });
     })
-    .get("/:id", authMiddleware, (request: Request, response: Response) => {
+    .get("/:id", authMiddleware, (request: any, response: Response) => {
         let promise = Promise.resolve();
 
         promise.then(() => {
             return FeedRepository.findById(request.params.id)
+                                 .where('user')
+                                 .equals(request.user._id)
                                  .exec();
         }).then((data) => {
             if(!data)
@@ -54,9 +58,35 @@ apiFeedRouter
             });
         });                          
     })
-    .post("/", authMiddleware, (request: Request, response: Response) => {
+    .delete("/:id", authMiddleware, (request: any, response: Response) => {
+        let promise = Promise.resolve();
+
+        promise.then(() => {
+            return FeedRepository.findById(request.params.id)
+                                 .where('user')
+                                 .equals(request.user._id)
+                                 .exec();
+        }).then((data) => {
+            if(!data)
+                throw 'Feed não encontrado';
+            
+            return FeedRepository.remove(data);
+
+        }).then((data) => {
+            response.json({
+                success: true
+            });
+        }).catch((error) => {
+            response.statusCode = 500;
+            response.json({
+                success: false,
+                message: error
+            });
+        });
+    })
+    .post("/", authMiddleware, (request: any, response: Response) => {
         let feed = <IFeed>{ 
-            user: request.body.user_id,
+            user: request.user._id,
             name: request.body.name
         }
 
@@ -80,11 +110,13 @@ apiFeedRouter
             });
         })
     })
-    .get("/:id/values", authMiddleware, (request: Request, response: Response) => {
+    .get("/:id/values", authMiddleware, (request: any, response: Response) => {
         let promise = Promise.resolve();
 
         promise.then(() => {
             return FeedRepository.findById(request.params.id)
+                      .where('user')
+                      .equals(request.user._id)
                       .populate('values')
                       .exec();
         }).then((data:IFeed) => {
@@ -103,8 +135,10 @@ apiFeedRouter
             });
         })
     })
-    .post("/:id/values", authMiddleware, (request: Request, response: Response) => {
+    .post("/:id/values", authMiddleware, (request: any, response: Response) => {
         let query = FeedRepository.findById(request.params.id)
+                      .where('user')
+                      .equals(request.user._id)                     
                       .exec();
         let feedValue = <IFeedValue>{
             value: request.body.value

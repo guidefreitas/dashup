@@ -1,14 +1,26 @@
 <div class="ui container">
     <nav class="ui menu inverted teal huge">
-        <a routerLink="home" class="item">Home</a>
+        <a routerLink="home" *ngIf="!isLogged" class="item">Home</a>
         <a routerLink="signup" *ngIf="!isLogged" class="item">Signup</a>
+        <a routerLink="dashboards" *ngIf="isLogged" class="item">Dashboards</a>
+        <a routerLink="feeds" *ngIf="isLogged" class="item">Feeds</a>
 
         <nav class="menu right">
             <a (click)="myPopup.show($event, {position: 'right center'})" *ngIf="!isLogged" class="item">Login</a>
-            <a (click)="logout()" *ngIf="isLogged" class="item inverted red">Logout</a>
+            <a (click)="myProfilePoppup.show($event, {position: 'right center'})" *ngIf="isLogged" class="item">{{ user.email }}</a>
+            <!-- <a (click)="logout()" *ngIf="isLogged" class="item inverted red">Logout</a> -->
         </nav>
     </nav>
     
+    <sm-popup class="huge" #myProfilePoppup>
+        <sm-card class="card basic">
+            <card-title>Profile</card-title>
+            <card-content>
+            </card-content>
+            <sm-button class="bottom attached fluid primary" (click)="logout()">Logout</sm-button>
+        </sm-card>
+    </sm-popup>
+
     <sm-popup class="huge" #myPopup>
         <sm-card class="card basic">
             <card-title> Simple login </card-title>
@@ -34,6 +46,7 @@
                                 placeholder="Your password">
                     </div>
                 </form>
+                <p>{{ errorMessage }}</p>
             </card-content>
             
             <sm-button class="bottom attached fluid primary" *ngIf="!isLogged" (click)="login()">Login</sm-button>
@@ -41,9 +54,7 @@
         </sm-card>
     </sm-popup>
         
-    <hello [name]="appName"></hello>
-    
-    <div class="ui divider"></div>
+    <!-- <hello [name]="appName"></hello> -->
     
     <router-outlet></router-outlet>
     

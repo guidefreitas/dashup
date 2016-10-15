@@ -1,5 +1,5 @@
 import { Router, Response, Request, NextFunction } from "express";
-import {FeedRepository, UserRepository } from "../models/repositories";
+import { FeedRepository, UserRepository } from "../models/repositories";
 import { verify } from "jsonwebtoken";
 import { secret } from "../config";
 

@@ -8,6 +8,8 @@ import { routing } from "./routes";
 import { HelloComponent } from "./components/shared/hello.component";
 import { HomeModule } from "./modules/home/home.module";
 import { AuthModule } from './modules/auth/auth.module';
+import { FeedsModule } from './modules/feeds/feeds.module';
+import { DashboardsModule } from './modules/dashboards/dashboards.module';
 import { FormsModule }   from '@angular/forms';
 
 @NgModule({
@@ -17,6 +19,8 @@ import { FormsModule }   from '@angular/forms';
         NgSemanticModule,
         AuthModule,
         HomeModule,
+        FeedsModule,
+        DashboardsModule,
         FormsModule,
         routing
     ],

@@ -11,4 +11,5 @@ body {
 
 .ui.inverted.menu .teal.active.item, .ui.inverted.teal.menu{
 	    background-color: #0083b5;
+		border-radius: 0px 0px 5px 5px;
 }
