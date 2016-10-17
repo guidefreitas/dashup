@@ -120,26 +120,31 @@ export class MqttServer{
             var feedDb : any;
             let promise = Promise.resolve();
             promise.then(() => {
+                
                 var feedName = packet.topic.split("/")[1];
-                    return FeedRepository.findOne({
-                                            user: client.user_id,  
-                                            name: new RegExp('^'+feedName+'$', "i") 
-                                        }).exec()
+                
+                return FeedRepository.findOne().where('user').equals(client.user_id)
+                                               .where('name').equals(new RegExp('^'+feedName+'$', "i"))
+                                               .populate('values')
+                                               .exec();
             }).then((res) => {
                 if(res){
+                    console.log(res);
                     let dataJsonString = new Buffer(packet.payload).toString('ascii');
                     let dataJson = JSON.parse(dataJsonString);
                     let feedValue = <IFeedValue>{
+                        feed: res._id,
                         value: dataJson.value
                     }
 
                     feedDb = res;
                     res.values.push(feedValue);
-                    return FeedRepository.update(res);
+                    console.log(res);
+                    return res.save();
                 }
-            }).then((res) => {
+            }).then((res2) => {
                 console.log('Sending WS');
-                WebSocketServer.Send(feedDb._id, res.values);
+                WebSocketServer.Send(feedDb._id, feedDb.values);
             }).catch((error) => {
                 console.log("MqttServer:Error:" + error.message);
             })            

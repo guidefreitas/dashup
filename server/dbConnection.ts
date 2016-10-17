@@ -1,7 +1,9 @@
 import * as mongoose from "mongoose";
+import * as config from './config';
 
 export class DbConnection{
-  static uri : string = 'mongodb://localhost/dashup';
+
+  static uri : string = 'mongodb://' + config.mongoDbHost + '/' + config.mongoDbName;
 
    static connect() {
     mongoose.Promise = global.Promise; 
