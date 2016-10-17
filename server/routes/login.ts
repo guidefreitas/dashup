@@ -4,6 +4,7 @@ import { sign } from "jsonwebtoken";
 import { secret, length, digest } from "../config";
 import { UserRepository } from "../models/repositories";
 import { IUser } from "../models/user";
+import * as crypto from 'crypto';
 
 const loginRouter: Router = Router();
 
@@ -37,7 +38,8 @@ loginRouter.post("/signup", function (request: Request, response: Response, next
             name: request.body.name,
             email: request.body.email,
             hashedPassword: hash.toString("hex"),
-            salt: salt
+            salt: salt,
+            apiToken: crypto.randomBytes(16).toString("hex")
         }
         return user;
     })

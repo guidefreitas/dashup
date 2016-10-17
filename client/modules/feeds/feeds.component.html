@@ -13,7 +13,11 @@
 			</thead>
 			<tbody>
 				<tr *ngFor="let feed of feeds">
-					<td> {{ feed.name }} </td>
+					<td> 
+						<a [routerLink]="['/feeds', feed._id]">
+								{{ feed.name }} 	
+						</a>
+					</td>
 					<td><button class="ui red basic button" (click)="deleteFeed(feed._id)">Delete</button></td>
 				</tr>
 			</tbody>

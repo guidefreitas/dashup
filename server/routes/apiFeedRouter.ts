@@ -37,6 +37,7 @@ apiFeedRouter
             return FeedRepository.findById(request.params.id)
                                  .where('user')
                                  .equals(request.user._id)
+                                 .populate('values')
                                  .exec();
         }).then((data) => {
             if(!data)
@@ -46,7 +47,8 @@ apiFeedRouter
                 success: true,
                 data: {
                     _id: data._id,
-                    name: data.name
+                    name: data.name,
+                    values: data.values
                 }
             });
 

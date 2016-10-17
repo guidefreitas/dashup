@@ -35,3 +35,13 @@ Comment out
 <!-- Production mod -->
 <script src="js/bundle.min.js"></script>
 ```
+
+
+## Use
+
+1. Signup in the site to create a new user
+2. Create a feed at Feeds menu
+3. Use the bellow instructions for mqtt authetication:
+    Username: your email
+    Password: your api token (Login in the site and click at your name in the menu to see your API Token)
+4. You can only subscribe and publish to your own feeds

@@ -11,7 +11,7 @@ apiUserRouter.get("/", authMiddleware, (request: Request, response: Response) =>
 
     promise.then(() => {
         return UserRepository.find()
-                            .select({ _id:1, name: 1, email: 1 })
+                            .select({ _id:1, name: 1, email: 1, apiToken:1 })
                             .exec();
     }).then((data) => {
         let dataReturn = {
@@ -34,12 +34,11 @@ apiUserRouter.get("/profile", authMiddleware, (request: any, response: Response)
 
     promise.then(() => {
         return UserRepository.findById(request.user._id)
-                            .select({ _id:1, name: 1, email: 1 })
+                            .select({ _id:1, name:1, email:1, apiToken:1 })
                             .exec();
     }).then((data) => {
         let dataReturn = {
             success: true,
-            count: data.length,
             data: data
         }
         response.json(dataReturn);
@@ -55,10 +54,11 @@ apiUserRouter.get("/profile", authMiddleware, (request: any, response: Response)
 apiUserRouter.post("/", authMiddleware, (request: Request, response: Response) => {
     let user = <IUser>{
         name: request.body.name,
-        email: request.body.email
+        email: request.body.email,
+        apiToken: crypto.randomBytes(16).toString("hex")
     };
 
-    user.apiToken = crypto.randomBytes(16).toString("hex");
+    console.log(user);
 
     let promise = Promise.resolve();
 

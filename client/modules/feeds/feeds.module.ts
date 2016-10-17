@@ -3,6 +3,7 @@ import { HttpModule } from "@angular/http";
 import { NgSemanticModule } from "ng-semantic";
 import { CommonModule } from "@angular/common";
 import { FeedsComponent } from "./feeds.component";
+import { FeedDetailComponent } from './feed.detail.component';
 import { feedsRouting } from "./feeds.routing";
 import { SharedModule } from "../shared/shared.module";
 import { BrowserModule } from '@angular/platform-browser';
@@ -16,10 +17,11 @@ import { FormsModule }   from '@angular/forms';
         SharedModule.forRoot(),
         BrowserModule,
         FormsModule,
-        NgSemanticModule
+        NgSemanticModule        
     ],
     declarations: [
-        FeedsComponent
+        FeedsComponent,
+        FeedDetailComponent
     ],
     bootstrap: [
         FeedsComponent

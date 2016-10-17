@@ -7,7 +7,7 @@
 
         <nav class="menu right">
             <a (click)="myPopup.show($event, {position: 'right center'})" *ngIf="!isLogged" class="item">Login</a>
-            <a (click)="myProfilePoppup.show($event, {position: 'right center'})" *ngIf="isLogged" class="item">{{ user.email }}</a>
+            <a (click)="myProfilePoppup.show($event, {position: 'right center'})" *ngIf="isLogged" class="item">{{ user.name }}</a>
             <!-- <a (click)="logout()" *ngIf="isLogged" class="item inverted red">Logout</a> -->
         </nav>
     </nav>
@@ -16,6 +16,17 @@
         <sm-card class="card basic">
             <card-title>Profile</card-title>
             <card-content>
+                <form class="ui form">
+                    <div class="field">
+                        <label>Name</label>
+                        {{ user.name }}
+                    </div>
+                    <div class="field">
+                        <label>API Token</label>
+                        {{ user.apiToken }}
+                    </div>
+                </form>
+                
             </card-content>
             <sm-button class="bottom attached fluid primary" (click)="logout()">Logout</sm-button>
         </sm-card>

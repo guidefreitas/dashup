@@ -24,14 +24,25 @@ export class AppComponent {
     @ViewChild("myProfilePoppup") myProfilePoppup: SemanticPopupComponent;
 
     constructor(private http: Http, private router: Router, private apiService: ApiService) {
+        
+    }
+
+
+    LoadProfile(){
+        let promise = Promise.resolve();
+        promise.then(() => {
+            return this.apiService.getUserProfile();
+        }).then((res) => {
+            res.subscribe(resSub => this.user = resSub.data)
+        }).catch((error) => {
+            this.isLogged = false;
+        });
+    }
+
+    ngOnInit() {
         this.isLogged = !!localStorage.getItem("id_token");
         if(this.isLogged){
-            this.apiService
-                .getUserProfile()
-                .subscribe((res) => {
-                    this.user.email = res.data.email
-                });
-
+            this.LoadProfile();
         }
     }
 
