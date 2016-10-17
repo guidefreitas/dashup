@@ -2,6 +2,15 @@
 	<sm-segment class="raised">
 		<h1>{{ feed.name }}</h1>
 		
+		<base-chart class="chart"
+            [datasets]="barChartData"
+            [labels]="barChartLabels"
+            [options]="barChartOptions"
+            [legend]="barChartLegend"
+            [chartType]="barChartType"
+            (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)"></base-chart>
+
 		<table class="ui celled table">
 			<thead>
 				<tr>

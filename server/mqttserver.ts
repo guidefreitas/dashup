@@ -120,9 +120,7 @@ export class MqttServer{
             var feedDb : any;
             let promise = Promise.resolve();
             promise.then(() => {
-                
                 var feedName = packet.topic.split("/")[1];
-                
                 return FeedRepository.findOne().where('user').equals(client.user_id)
                                                .where('name').equals(new RegExp('^'+feedName+'$', "i"))
                                                .populate('values')

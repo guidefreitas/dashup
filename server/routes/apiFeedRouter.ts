@@ -48,7 +48,9 @@ apiFeedRouter
                 data: {
                     _id: data._id,
                     name: data.name,
-                    values: data.values
+                    values: data.values.sort((a,b) => {
+                        return b.date - a.date;
+                    })
                 }
             });
 
@@ -61,6 +63,7 @@ apiFeedRouter
         });                          
     })
     .delete("/:id", authMiddleware, (request: any, response: Response) => {
+        
         let promise = Promise.resolve();
 
         promise.then(() => {

@@ -8,6 +8,7 @@ export var UserSchema = new mongoose.Schema({
     hashedPassword: String,
     salt: String,
     apiToken: String,
+    makerApiToken: String,
     feeds: [FeedSchema],
     dashboards: [DashboardSchema]
 });
@@ -18,6 +19,7 @@ export interface IUser extends mongoose.Document {
   hashedPassword: string;
   salt: string;
   apiToken: string;
+  makerApiToken: string;
   feeds: [IFeed];
   dashboards: [IDashboard]
 };

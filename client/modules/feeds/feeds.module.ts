@@ -9,6 +9,7 @@ import { SharedModule } from "../shared/shared.module";
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule }   from '@angular/forms';
 import { AuthService } from '../../service/auth.service';
+
 @NgModule({
     imports: [
         CommonModule,
@@ -17,7 +18,7 @@ import { AuthService } from '../../service/auth.service';
         SharedModule.forRoot(),
         BrowserModule,
         FormsModule,
-        NgSemanticModule        
+        NgSemanticModule       
     ],
     declarations: [
         FeedsComponent,

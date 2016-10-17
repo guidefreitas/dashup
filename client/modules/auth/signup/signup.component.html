@@ -1,36 +1,42 @@
-<h1>Sign Up</h1>
+<div class="ui container">
+  
+	<sm-segment class="raised">
+    <h1>Sign Up</h1>
+    
+		<div *ngIf="message">
+      {{ message }}
+    </div>
 
-<div *ngIf="message">
-  {{ message }}
+    <form class="ui form" (submit)="signup($event)">
+      <div class="field">
+        <label>Name</label>
+        <input [(ngModel)]="user.name" 
+                  name="name"
+                  required
+                  #name="ngModel" 
+                  type="text"  
+                  placeholder="Your name">
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input [(ngModel)]="user.email" 
+                  name="email"
+                  required
+                  #name="ngModel" 
+                  type="email" 
+                  placeholder="Your email">
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input [(ngModel)]="user.password" 
+                  name="password"
+                  required
+                  #name="ngModel" 
+                  type="password" 
+                  placeholder="Your password">
+      </div>
+      <button class="ui button" type="submit">Sign up</button>
+    </form>
+	</sm-segment>
 </div>
 
-<form class="ui form" (submit)="signup($event)">
-  <div class="field">
-    <label>Name</label>
-    <input [(ngModel)]="user.name" 
-               name="name"
-               required
-               #name="ngModel" 
-               type="text"  
-               placeholder="Your name">
-  </div>
-  <div class="field">
-    <label>Email</label>
-    <input [(ngModel)]="user.email" 
-               name="email"
-               required
-               #name="ngModel" 
-               type="email" 
-               placeholder="Your email">
-  </div>
-  <div class="field">
-    <label>Password</label>
-    <input [(ngModel)]="user.password" 
-              name="password"
-              required
-              #name="ngModel" 
-              type="password" 
-              placeholder="Your password">
-  </div>
-  <button class="ui button" type="submit">Sign up</button>
-</form>

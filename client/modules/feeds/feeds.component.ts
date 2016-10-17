@@ -20,13 +20,9 @@ export class FeedsComponent {
     errorMessage : String;
 
     LoadFeeds(){
-        let promise = Promise.resolve();
-        promise.then(() => {
-            return this.apiService.getFeeds();
-        }).then((response) => {
-            response.subscribe((res) => {
-                this.feeds = res.data;
-            });
+        let promise = this.apiService.getFeeds();
+        promise.then((res) => {
+            this.feeds = res.data;
         }).catch((error) => {
             this.errorMessage = error;
         });
@@ -39,11 +35,9 @@ export class FeedsComponent {
 
     deleteFeed(id){
         console.log('Deleting' + id);
-        let promise = Promise.resolve();
-        promise.then(() => {
-            return this.apiService.deleteFeed(id);
-        }).then((res) => {
-            res.subscribe((data) => {});
+        let promise = this.apiService.deleteFeed(id);
+        promise.then((res) => {
+            //res.subscribe((data) => {});
             this.LoadFeeds();
         }).catch((error) => {
             console.error(error);
@@ -51,14 +45,9 @@ export class FeedsComponent {
     }
 
     createNewFeed() {
-        let promise = Promise.resolve();
-        promise.then(() => {
-            console.log('calling ws');
-            return this.apiService.createFeed(this.newFeed);
-        }).then((res) => {
-            res.subscribe((data) => {
-                console.log(data);
-            })
+        let promise = this.apiService.createFeed(this.newFeed);
+        promise.then((res) => {
+            console.log(res);
             this.newFeed.name = "";
             this.newFeedModal.hide();
             this.LoadFeeds();

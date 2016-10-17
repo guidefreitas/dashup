@@ -29,14 +29,10 @@ export class AppComponent {
     }
 
     LoadProfile(){
-        let promise = Promise.resolve();
-        promise.then(() => {
-            return this.apiService.getUserProfile();
-        }).then((res) => {
-            res.subscribe(resSub => {
-                this.user = resSub.data;
-                this.authService.User = this.user;
-            })
+        let promise = this.apiService.getUserProfile();
+        promise.then((res) => {
+            this.user = res.data;
+            this.authService.User = this.user;
         }).catch((error) => {
             this.isLogged = false;
         });
@@ -59,6 +55,7 @@ export class AppComponent {
                     localStorage.setItem("id_token", res.jwt);
                     this.isLogged = true;
                     this.myPopup.hide();
+                    this.LoadProfile();
                     this.router.navigate(['./dashboards']);
                 },
                 (error: Error) => { 

@@ -26,7 +26,8 @@ var isPublic = typeof window != "undefined";
             'angular2-jwt':                      'npm:angular2-jwt/angular2-jwt.js',
             'js-base64':                         'npm:js-base64/base64.js',
             'ng-semantic':                       'npm:ng-semantic',
-            'chartjs':                           'npm:chart.js/Chart.min.js',
+            'ng2-charts':                        'npm:ng2-charts',
+            'ng2-charts/ng2-charts' :            'npm:ng2-charts/ng2-charts.ts',
             'socket.io' :                        'npm:socket.io/lib/socket.js',
             'socket.io-client' :                 'npm:socket.io-client/socket.io.js'
         },
