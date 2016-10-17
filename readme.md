@@ -13,9 +13,13 @@ Demo: soon
 
 # Install dependencies
 npm install -g typescript@next
+
 npm install -g typings
+
 npm install
 
+Obs: You need a mongodb server. 
+Change config.ts for host other than localhost.
 # start server
 npm run develop
 
