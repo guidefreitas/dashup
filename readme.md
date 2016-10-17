@@ -12,6 +12,8 @@ Demo: soon
 ## Install
 
 # Install dependencies
+npm install -g typescript@next
+npm install -g typings
 npm install
 
 # start server

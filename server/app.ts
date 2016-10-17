@@ -9,11 +9,14 @@ import { apiUserRouter } from "./routes/apiUserRouter";
 import { apiDashboardRouter } from "./routes/apiDashboardRouter";
 import { DbConnection } from "./DbConnection";
 import { MqttServer } from './mqttserver';
+import { WebSocketServer } from './websocketserver';
 
 let mqttServer = new MqttServer();
 mqttServer.start();
 
 const app: express.Application = express();
+
+WebSocketServer.Start(app);
 
 DbConnection.connect();
 

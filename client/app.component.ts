@@ -1,6 +1,7 @@
 import { Component, ViewChild } from "@angular/core";
 import { Http, Headers, RequestOptions, Response } from "@angular/http";
 import { SemanticPopupComponent } from "ng-semantic";
+import { AuthService } from './service/auth.service';
 import { Router } from '@angular/router'
 import "rxjs/add/operator/map";
 import { ApiService } from "./service/api.service";
@@ -23,17 +24,19 @@ export class AppComponent {
     @ViewChild("myPopup") myPopup: SemanticPopupComponent;
     @ViewChild("myProfilePoppup") myProfilePoppup: SemanticPopupComponent;
 
-    constructor(private http: Http, private router: Router, private apiService: ApiService) {
+    constructor(private http: Http, private router: Router, private apiService: ApiService, private authService: AuthService) {
         
     }
-
 
     LoadProfile(){
         let promise = Promise.resolve();
         promise.then(() => {
             return this.apiService.getUserProfile();
         }).then((res) => {
-            res.subscribe(resSub => this.user = resSub.data)
+            res.subscribe(resSub => {
+                this.user = resSub.data;
+                this.authService.User = this.user;
+            })
         }).catch((error) => {
             this.isLogged = false;
         });

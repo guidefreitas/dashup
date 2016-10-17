@@ -8,7 +8,7 @@ import { feedsRouting } from "./feeds.routing";
 import { SharedModule } from "../shared/shared.module";
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule }   from '@angular/forms';
-
+import { AuthService } from '../../service/auth.service';
 @NgModule({
     imports: [
         CommonModule,
@@ -22,6 +22,9 @@ import { FormsModule }   from '@angular/forms';
     declarations: [
         FeedsComponent,
         FeedDetailComponent
+    ],
+    providers: [
+        AuthService
     ],
     bootstrap: [
         FeedsComponent

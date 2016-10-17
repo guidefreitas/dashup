@@ -1,6 +1,7 @@
 import * as mosca from 'mosca';
 import { UserRepository, FeedRepository } from './models/repositories'
 import { IFeedValue } from "./models/feedValue";
+import { WebSocketServer } from './websocketserver';
 
 export class MqttServer{
 
@@ -104,14 +105,26 @@ export class MqttServer{
         });
 
         this.server.on('published', (packet, client) => {
-            
+            if(packet.topic.indexOf('/new/clients') !== -1){
+                return;
+            }
+
+            if(packet.topic.indexOf('/new/unsubscribes') !== -1){
+                return;
+            }
+
+            if(packet.topic.indexOf('/new/subscribes') !== -1){
+                return;
+            }
+
+            var feedDb : any;
             let promise = Promise.resolve();
             promise.then(() => {
                 var feedName = packet.topic.split("/")[1];
-                return FeedRepository.findOne({
-                                        user: client.user_id,  
-                                        name: new RegExp('^'+feedName+'$', "i") 
-                                    }).exec()
+                    return FeedRepository.findOne({
+                                            user: client.user_id,  
+                                            name: new RegExp('^'+feedName+'$', "i") 
+                                        }).exec()
             }).then((res) => {
                 if(res){
                     let dataJsonString = new Buffer(packet.payload).toString('ascii');
@@ -120,9 +133,13 @@ export class MqttServer{
                         value: dataJson.value
                     }
 
+                    feedDb = res;
                     res.values.push(feedValue);
                     return FeedRepository.update(res);
                 }
+            }).then((res) => {
+                console.log('Sending WS');
+                WebSocketServer.Send(feedDb._id, res.values);
             }).catch((error) => {
                 console.log("MqttServer:Error:" + error.message);
             })            
