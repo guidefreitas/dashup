@@ -10,6 +10,10 @@ var isPublic = typeof window != "undefined";
             // paths serve as alias
             'npm:': (isPublic) ? '/' : 'node_modules/'
         },
+        meta: {
+            'typescript': {
+                "exports": "ts"
+        }},
         // map tells the System loader where to look for things
         map: {
             // our app is within the app folder
@@ -29,7 +33,10 @@ var isPublic = typeof window != "undefined";
             'ng2-charts':                        'npm:ng2-charts',
             'ng2-charts/ng2-charts' :            'npm:ng2-charts/ng2-charts.ts',
             'socket.io' :                        'npm:socket.io/lib/socket.js',
-            'socket.io-client' :                 'npm:socket.io-client/socket.io.js'
+            'socket.io-client' :                 'npm:socket.io-client/socket.io.js',
+            'angular-highcharts' :               'npm:angular-highcharts/dist/angular-highcharts.umd.js',
+            'traceur' :                          'npm:traceur/bin/traceur.js',
+            'highcharts' :                       'npm:highcharts/highcharts.js'
         },
         // packages tells the System loader how to load when no filename and/or no extension
         packages: {
@@ -46,6 +53,10 @@ var isPublic = typeof window != "undefined";
             },
             'ng-semantic': {
                 main: 'ng-semantic',
+                defaultExtension: 'js'
+            },
+            'angular2-highcharts': {
+                main: './index.js',
                 defaultExtension: 'js'
             }
         }

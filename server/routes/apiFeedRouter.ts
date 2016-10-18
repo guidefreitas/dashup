@@ -41,7 +41,7 @@ apiFeedRouter
                                  .exec();
         }).then((data) => {
             if(!data)
-                throw 'Feed não encontrado';
+                throw 'Feed not found';
             
             response.json({
                 success: true,
@@ -50,7 +50,7 @@ apiFeedRouter
                     name: data.name,
                     values: data.values.sort((a,b) => {
                         return b.date - a.date;
-                    })
+                    }).splice(0, 20)
                 }
             });
 
@@ -73,7 +73,7 @@ apiFeedRouter
                                  .exec();
         }).then((data) => {
             if(!data)
-                throw 'Feed não encontrado';
+                throw 'Feed not found';
             
             return FeedRepository.remove(data);
 
@@ -126,7 +126,7 @@ apiFeedRouter
                       .exec();
         }).then((data:IFeed) => {
             if(!data)
-                throw 'Feed não encontrado';
+                throw 'Feed not found';
 
             response.json({
                 success: true,

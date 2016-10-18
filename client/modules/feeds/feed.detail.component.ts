@@ -6,61 +6,48 @@ import { SemanticModalComponent } from "ng-semantic";
 import { ActivatedRoute } from '@angular/router';
 import * as io from "socket.io-client";
 import { config } from '../../config';
+import { Chart } from 'angular-highcharts';
 
 @Component({
     selector: "feed",
     templateUrl: `client/modules/feeds/feed.detail.component.html`
 })
 export class FeedDetailComponent {
+    options: HighchartsOptions;
     socket:any = null;
     error: string;
     response: {};
     feed: { _id: '', name: '', values: [any]};
     errorMessage: '';
     authSrv : AuthService;
+    graphData: Array<number>;
+    graphLabels: Array<string>;
 
-    public barChartOptions:any = {
-    scaleShowVerticalLines: false,
-    responsive: true
-    };
-    public barChartLabels:string[] = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
-    public barChartType:string = 'bar';
-    public barChartLegend:boolean = true;
-
-    public barChartData:any[] = [
-        {data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A'},
-        {data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B'}
-    ];
-
-    // events
-    public chartClicked(e:any):void {
-        console.log(e);
-    }
-
-    public chartHovered(e:any):void {
-        console.log(e);
-    }
-
-    public randomize():void {
-        // Only Change 3 values
-        let data = [
-        Math.round(Math.random() * 100),
-        59,
-        80,
-        (Math.random() * 100),
-        56,
-        (Math.random() * 100),
-        40];
-        let clone = JSON.parse(JSON.stringify(this.barChartData));
-        clone[0].data = data;
-        this.barChartData = clone;
-        /**
-         * (My guess), for Angular to recognize the change in the dataset
-         * it has to change the dataset variable directly,
-         * so one way around it, is to clone the data, change it and then
-         * assign it;
-         */
-    }
+    chart = new Chart({
+      chart: {
+        type: 'line'
+      },
+      title: {
+        text: 'Linechart'
+      },
+      yAxis: {
+            title: {
+                text: 'Value'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+      },
+      credits: {
+        enabled: false
+      },
+      series: [{
+        name: '',
+        data: []
+      }]
+    });
 
     LoadFeed(){
         this.route.params
@@ -70,7 +57,14 @@ export class FeedDetailComponent {
                 .getFeed(id)
                 .then((res) => {
                     this.feed = res.data;
+                    this.graphData = new Array<number>();
+                    this.graphLabels = new Array<string>();
+                    this.feed.values.forEach((value) => {
+                        this.graphData.push(parseInt(value.value);
+                        this.graphLabels.push(value.date);
+                    });
                     this.InitWS();
+                    this.LoadGraph();
                 });
             });
     }
@@ -80,6 +74,20 @@ export class FeedDetailComponent {
                 private authService : AuthService) {
         this.feed = { _id: '', name: '', values: [{}]};
         this.authSrv = authService;
+    }
+
+    LoadGraph(){
+        this.chart.removeSerie(0);
+        this.chart.ref.addSeries({
+            name: 'Values',
+            data: this.graphData,
+            dataLabels: this.graphLabels,
+            color: '#808080',
+            dashStyle: 'Solid',
+            marker: {
+                symbol: 'circle'
+            }
+        }, true);
         
     }
 
@@ -89,12 +97,9 @@ export class FeedDetailComponent {
             this.socket = io.connect(wsUrl);
             
             let channel = this.feed._id;
-            console.log('Channel:' + channel);
             this.socket.on(channel, (message) => {
-                console.log('Recebido por WS:' + message);
                 this.LoadFeed();
             });
-            console.log(this.socket);
         }
         
     }

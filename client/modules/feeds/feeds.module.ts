@@ -9,6 +9,7 @@ import { SharedModule } from "../shared/shared.module";
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule }   from '@angular/forms';
 import { AuthService } from '../../service/auth.service';
+import { ChartModule } from 'angular-highcharts';
 
 @NgModule({
     imports: [
@@ -18,7 +19,8 @@ import { AuthService } from '../../service/auth.service';
         SharedModule.forRoot(),
         BrowserModule,
         FormsModule,
-        NgSemanticModule       
+        NgSemanticModule,
+        ChartModule       
     ],
     declarations: [
         FeedsComponent,
