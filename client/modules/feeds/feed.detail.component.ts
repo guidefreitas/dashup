@@ -21,7 +21,7 @@ export class FeedDetailComponent {
     errorMessage: '';
     authSrv : AuthService;
     graphData: Array<number>;
-    graphLabels: Array<string>;
+    graphLabels: Array<Date>;
 
     chart = new Chart({
       chart: {
@@ -30,6 +30,14 @@ export class FeedDetailComponent {
       title: {
         text: 'Linechart'
       },
+      xAxis: {
+            type: 'datetime',
+            labels: {
+                formatter: function () {
+                    return this.value;
+                }
+            }
+        },
       yAxis: {
             title: {
                 text: 'Value'
@@ -58,10 +66,10 @@ export class FeedDetailComponent {
                 .then((res) => {
                     this.feed = res.data;
                     this.graphData = new Array<number>();
-                    this.graphLabels = new Array<string>();
+                    this.graphLabels = new Array<Date>();
                     this.feed.values.forEach((value) => {
-                        this.graphData.push(parseInt(value.value);
-                        this.graphLabels.push(value.date);
+                        this.graphData.push(parseInt(value.value));
+                        this.graphLabels.push(new Date(value.date));
                     });
                     this.InitWS();
                     this.LoadGraph();
@@ -80,8 +88,8 @@ export class FeedDetailComponent {
         this.chart.removeSerie(0);
         this.chart.ref.addSeries({
             name: 'Values',
-            data: this.graphData,
-            dataLabels: this.graphLabels,
+            data: this.graphData.reverse(),
+            dataLabels: this.graphLabels.reverse(),
             color: '#808080',
             dashStyle: 'Solid',
             marker: {

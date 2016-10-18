@@ -20,6 +20,7 @@ export class MqttServer{
                                  .exec();
         }).then((res) => {
             if(res){
+                console.log('MqttServer:Authenticate:User found: ' + res.name);
                 authorized = true;
                 client.user_id = res._id;
                 callback(null, authorized);
@@ -28,8 +29,10 @@ export class MqttServer{
             }
             
         }).catch((error) => {
+            console.log('MqttServer:Authenticate:Error:' + error);
             authorized = false;
             callback(null, authorized);
+            
         })
  
     }
@@ -38,17 +41,21 @@ export class MqttServer{
         var authorized = false;
         let promise = Promise.resolve();
         promise.then(() => {
-            var feedName = topic.split("/")[1];
-            return FeedRepository.findOne({
-                                    user: client.user_id,  
-                                    name: new RegExp('^'+feedName+'$', "i") 
-                                }).exec()
+            //var feedName = topic.split("/")[1];
+            var feedName = topic;
+            return FeedRepository.findOne().where('user').equals(client.user_id)
+                                           .where('name').equals(new RegExp('^'+feedName+'$', "i")) 
+                                           .exec()
         }).then((res) => {
             if(res){
                 authorized = true;
                 callback(null, authorized);
+            }else{
+                console.log('MqttServer:AuthorizePublish:Feed not found');
             }
+            
         }).catch((error) => {
+            console.log('MqttServer:AuthorizePublish:Error:' + error);
             authorized = false;
             callback(null, authorized);
         })
@@ -120,31 +127,33 @@ export class MqttServer{
             var feedDb : any;
             let promise = Promise.resolve();
             promise.then(() => {
-                var feedName = packet.topic.split("/")[1];
+                var feedName = packet.topic;
                 return FeedRepository.findOne().where('user').equals(client.user_id)
                                                .where('name').equals(new RegExp('^'+feedName+'$', "i"))
                                                .populate('values')
                                                .exec();
             }).then((res) => {
                 if(res){
-                    console.log(res);
+
                     let dataJsonString = new Buffer(packet.payload).toString('ascii');
                     let dataJson = JSON.parse(dataJsonString);
                     let feedValue = <IFeedValue>{
                         feed: res._id,
                         value: dataJson.value
                     }
-
                     feedDb = res;
                     res.values.push(feedValue);
-                    console.log(res);
                     return res.save();
+                }else{
+                    feedDb = undefined;
+                    throw new Error("MqttServer:Published:Error:Feed not Found");
                 }
             }).then((res2) => {
-                console.log('Sending WS');
-                WebSocketServer.Send(feedDb._id, feedDb.values);
+                if(feedDb){
+                    WebSocketServer.Send(feedDb._id, feedDb.values);
+                }
             }).catch((error) => {
-                console.log("MqttServer:Error:" + error.message);
+                console.log("MqttServer:Published:Error:" + error.message);
             })            
         });
     }
