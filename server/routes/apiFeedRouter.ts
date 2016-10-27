@@ -75,7 +75,8 @@ apiFeedRouter
             if(!data)
                 throw 'Feed not found';
             
-            return FeedRepository.remove(data);
+            return data.remove();
+            //return FeedRepository.remove(data);
 
         }).then((data) => {
             response.json({

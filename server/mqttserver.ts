@@ -23,6 +23,7 @@ export class MqttServer{
                 console.log('MqttServer:Authenticate:User found: ' + res.name);
                 authorized = true;
                 client.user_id = res._id;
+                console.log('MqttServer:Authenticate:Success:' + username);
                 callback(null, authorized);
             }else{
                 throw new Error();
@@ -49,6 +50,7 @@ export class MqttServer{
         }).then((res) => {
             if(res){
                 authorized = true;
+                console.log('MqttServer:AuthorizePublish:Success:' + client.user_id);
                 callback(null, authorized);
             }else{
                 console.log('MqttServer:AuthorizePublish:Feed not found');
@@ -66,18 +68,21 @@ export class MqttServer{
         var authorized = false;
         let promise = Promise.resolve();
         promise.then(() => {
-            var feedName = topic.split("/")[1];
+            var feedName = topic;
             return FeedRepository.findOne({
                                     user: client.user_id,  
                                     name: new RegExp('^'+feedName+'$', "i") 
                                 }).exec()
         }).then((res) => {
+            
             if(res){
                 authorized = true;
+                console.log('MqttServer:AuthorizeSubscribe:Success:' + client.user_id);
                 callback(null, authorized);
             }
         }).catch((error) => {
             authorized = false;
+            console.log('MqttServer:AuthorizeSubscribe:Error:' + error);
             callback(null, authorized);
         })
     }

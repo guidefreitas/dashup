@@ -45,7 +45,12 @@ export class AppComponent {
         }
     }
 
-    login() {
+    login(event) {
+        if(event){
+            console.log(event);
+            event.preventDefault();
+        }
+
         this.http.post("/login", JSON.stringify({ email: this.user.email, password: this.user.password }), new RequestOptions({
             headers: new Headers({"Content-Type": "application/json"})
         }))

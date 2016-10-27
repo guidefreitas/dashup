@@ -36,7 +36,9 @@ var isPublic = typeof window != "undefined";
             'socket.io-client' :                 'npm:socket.io-client/socket.io.js',
             'angular-highcharts' :               'npm:angular-highcharts/dist/angular-highcharts.umd.js',
             'traceur' :                          'npm:traceur/bin/traceur.js',
-            'highcharts' :                       'npm:highcharts/highcharts.js'
+            'highcharts' :                       'npm:highcharts/highcharts.js',
+            'rxjs' :                             'npm:rxjs',
+            'buffer':                            '@empty'
         },
         // packages tells the System loader how to load when no filename and/or no extension
         packages: {

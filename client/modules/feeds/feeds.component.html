@@ -3,8 +3,8 @@
 		<h1>Feeds</h1>
 		
 		<button (click)="newFeedModal.show({inverted: true})" class="ui green basic button">+ Add Feed</button>
-
-		<table class="ui celled table">
+		<h3 *ngIf="!feeds || feeds.length == 0">There are no feeds available</h3>
+		<table *ngIf="feeds && feeds.length > 0" class="ui celled table">
 			<thead>
 				<tr>
 					<th>Name</th>
@@ -27,7 +27,7 @@
 
 <sm-modal title="New Feed" class="" #newFeedModal>
     <modal-content>
-		<form class="ui form" (submit)="signup($event)">
+		<form class="ui form" (submit)="createNewFeed($event)">
 			<div class="field">
 				<label>Name</label>
 				<input [(ngModel)]="newFeed.name" 

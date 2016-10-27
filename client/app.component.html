@@ -34,7 +34,7 @@
 
     <sm-popup class="huge" #myPopup>
         <sm-card class="card basic">
-            <card-title> Simple login </card-title>
+            <card-title> Login </card-title>
             <card-subtitle>  </card-subtitle>
             <card-content>
                 <form class="ui form" (submit)="login($event)">
@@ -56,6 +56,8 @@
                                 type="password" 
                                 placeholder="Your password">
                     </div>
+
+                    <button type="submit" style="display: none;">Log in</button>
                 </form>
                 <p>{{ errorMessage }}</p>
             </card-content>

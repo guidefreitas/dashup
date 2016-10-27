@@ -34,20 +34,19 @@ export class FeedsComponent {
     }
 
     deleteFeed(id){
-        console.log('Deleting' + id);
         let promise = this.apiService.deleteFeed(id);
         promise.then((res) => {
-            //res.subscribe((data) => {});
             this.LoadFeeds();
         }).catch((error) => {
             console.error(error);
         });
     }
 
-    createNewFeed() {
+    createNewFeed(event) {
+        event.preventDefault();
+
         let promise = this.apiService.createFeed(this.newFeed);
         promise.then((res) => {
-            console.log(res);
             this.newFeed.name = "";
             this.newFeedModal.hide();
             this.LoadFeeds();
